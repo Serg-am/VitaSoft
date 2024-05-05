@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - Users</title>
+</head>
+<body>
+<h2>User List</h2>
+<p><a class="nav-link" th:href="@{/}">На главную</a></p>
+<form th:method="POST" th:action="@{/admin/users/search}">
+    <input type="text" name="username" placeholder="Поиск пользователя"/>
+    <button type="submit">Поиск</button>
+</form>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Имя пользователя</th>
+        <th>Роли</th>
+        <th>Действие</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="user : ${users}">
+        <td th:text="${user.id}"></td>
+        <td th:text="${user.username}"></td>
+        <td>
+            <ul>
+                <li th:each="role : ${user.roles}" th:text="${role.roleName}"></li>
+            </ul>
+        </td>
+        <td>
+            <form th:method="POST" th:action="@{/admin/users/assignOperatorRole}">
+                <input type="hidden" name="userId" th:value="${user.id}"/>
+                <button type="submit">Назначить роль оператора</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

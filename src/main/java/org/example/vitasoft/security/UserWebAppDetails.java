@@ -6,6 +6,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class UserWebAppDetails implements UserDetails {
 
@@ -21,8 +22,11 @@ public class UserWebAppDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(userWebApp.getRole().toString()));
+        return userWebApp.getRoles().stream()
+                .map(role -> new SimpleGrantedAuthority(role.getRoleName()))
+                .collect(Collectors.toList());
     }
+
 
     public UserWebApp getUserWebApp() {
         return userWebApp;
