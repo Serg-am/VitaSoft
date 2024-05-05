@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Requests</title>
+</head>
+<body>
+<h2>Create Request</h2>
+<form th:method="POST" th:action="@{/requests}" th:object="${requestDTO}">
+    <label for="text">Введите текст: </label>
+    <input type="text" th:field="*{text}" id="text"/>
+    <div style="color:red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Ошибка текста</div>
+    <br/>
+
+    <input type="submit" value="Создать"/>
+</form>
+
+<h2>My Requests</h2>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Status</th>
+        <th>Text</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="request : ${requests}">
+        <td th:text="${request.id}"></td>
+        <td th:text="${request.status}"></td>
+        <td th:text="${request.text}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

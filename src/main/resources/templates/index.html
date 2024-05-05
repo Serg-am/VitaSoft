@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Index</title>
+</head>
+<body>
+<h2>Приветствую тебя</h2>
+<p>Эта страница для пользователей которые зарегистрировались</p>
+<p><a class="nav-link" th:href="@{/auth/login}">Login</a></p>
+<p><a class="nav-link" th:href="@{/auth/registration}">Registration</a></p>
+<p><a class="nav-link" th:href="@{/requests}">Reguests</a></p>
+<p><a class="nav-link" th:href="@{/logout}">Logout</a></p>
+</body>
+</html>
