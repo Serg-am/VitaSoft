@@ -23,7 +23,6 @@ public class RegistrationService {
     @Transactional
     public void register(UserWebApp userWebApp){
         userWebApp.setPassword(passwordEncoder.encode(userWebApp.getPassword()));
-        // Добавляем роль в коллекцию roles
         userWebApp.getRoles().add(defaultRole);
         usersRepository.save(userWebApp);
     }

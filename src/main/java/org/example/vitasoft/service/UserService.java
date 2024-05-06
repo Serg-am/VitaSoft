@@ -28,10 +28,6 @@ public class UserService implements UserDetailsService {
         return user;
     }
 
-    /*public List<UserWebApp> findUsersByUsername(String username) {
-        return userRepo.findByUsername(username);
-    }*/
-
     public List<UserWebApp> findAll() {
         return userRepo.findAll();
     }

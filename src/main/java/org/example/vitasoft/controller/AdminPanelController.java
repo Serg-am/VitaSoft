@@ -25,20 +25,20 @@ public class AdminPanelController {
     public String userList(Model model) {
         List<UserWebApp> users = userService.findAll();
         model.addAttribute("users", users);
-        return "admin_panel"; // Убран лишний слеш перед именем шаблона
+        return "admin_panel";
     }
 
     @PostMapping("/admin/users/search")
     public String searchUser(@RequestParam("username") String username, Model model) {
         List<UserWebApp> users = userService.findByUsernameContaining(username);
         model.addAttribute("users", users);
-        return "admin_panel"; // Убран редирект, чтобы модель осталась на той же странице
+        return "admin_panel";
     }
 
     @PostMapping("/admin/users/assignOperatorRole")
     public String assignOperatorRole(@RequestParam("userId") Integer userId) { // Использован Long для ID пользователя
         userService.assignOperatorRole(userId);
-        return "redirect:/admin_panel"; // Возвращается редирект на список пользователей
+        return "redirect:/admin_panel";
     }
 }
 

@@ -7,9 +7,9 @@
 <body>
 <h2>Registration</h2>
 <form class="text-center" th:method="POST" th:action="@{/auth/registration}" th:object="${userwebapp}">
-    <label for="users">Username:</label><br>
+    <label for="users">Логин:</label><br>
     <input type="text" id="users" th:field="*{username}"><br>
-    <label for="password">Password:</label><br>
+    <label for="password">Паорль:</label><br>
     <input type="password" id="password" th:field="*{password}"><br><br>
     <input type="submit" value="Register">
 </form>

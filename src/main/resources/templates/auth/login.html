@@ -8,13 +8,13 @@
 <h2>Login</h2>
 <form name="f" method="post" action="/process_login">
     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-    <label for="username">Username:</label><br>
+    <label for="username">Логин:</label><br>
     <input type="text" id="username" name="username"><br>
-    <label for="password">Password:</label><br>
+    <label for="password">Пароль:</label><br>
     <input type="password" id="password" name="password"><br><br>
     <input type="submit" value="Login">
 </form>
 <br>
-<a href="/auth/registration">Register</a>
+<a href="/auth/registration">Перейти к регистрации</a>
 </body>
 </html>

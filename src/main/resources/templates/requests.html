@@ -6,7 +6,7 @@
 </head>
 <body>
 <h2>Create Request</h2>
-<form th:method="POST" th:action="@{/requests}" th:object="${requestDTO}">
+<form th:method="POST" th:action="@{/requests/create}" th:object="${requestDTO}">
     <label for="text">Введите текст: </label>
     <input type="text" th:field="*{text}" id="text"/>
     <div style="color:red" th:if="${#fields.hasErrors('text')}" th:errors="*{text}">Ошибка текста</div>
@@ -22,6 +22,7 @@
         <th>ID</th>
         <th>Status</th>
         <th>Text</th>
+        <th>Action</th>
     </tr>
     </thead>
     <tbody>
@@ -29,6 +30,20 @@
         <td th:text="${request.id}"></td>
         <td th:text="${request.status}"></td>
         <td th:text="${request.text}"></td>
+        <td>
+            <div th:if="${request.status.toString() == 'DRAFT'}">
+                <form th:action="@{/requests/edit/{requestId}(requestId=${request.id})}" th:method="POST">
+                    <input type="hidden" name="requestId" th:value="${request.id}"/>
+                    <label for="newText">Введите текст для редактирования: </label>
+                    <input type="text" id="newText" name="newText" th:value="${request.text}"/>
+                    <button type="submit">Редактировать</button>
+                </form>
+                <form th:action="@{/requests/submit/{requestId}(requestId=${request.id})}" th:method="POST">
+                    <input type="hidden" name="requestId" th:value="${request.id}"/>
+                    <button type="submit">Отправить на рассмотрение</button>
+                </form>
+            </div>
+        </td>
     </tr>
     </tbody>
 </table>
