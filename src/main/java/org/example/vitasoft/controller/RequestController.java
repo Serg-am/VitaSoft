@@ -7,13 +7,15 @@ import org.example.vitasoft.entity.UserWebApp;
 import org.example.vitasoft.security.UserWebAppDetails;
 import org.example.vitasoft.service.RequestService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/requests")
@@ -57,18 +59,31 @@ public class RequestController {
         return "redirect:/requests";
     }
 
-    // Метод для отображения страницы создания заявки и списка заявок пользователя
-    @GetMapping()
-    public String showCreateRequestForm(Model model) {
+    @GetMapping
+    public String showRequestsPage(Model model,
+                                   @RequestParam(defaultValue = "0") int page,
+                                   @RequestParam(defaultValue = "createdAt_desc") String sort) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserWebAppDetails userDetails = (UserWebAppDetails) authentication.getPrincipal();
         UserWebApp user = userDetails.getUser();
 
-        List<Request> requests = requestService.getUserRequests(user);
-        model.addAttribute("requests", requests);
+        Sort.Direction direction = sort.endsWith("_desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
+        String sortBy = sort.split("_")[0];
+
+        // Получить список заявок пользователя с учетом пагинации и сортировки
+        Page<Request> pageRequests = requestService.getUserRequests(user,
+                PageRequest.of(page, 5, Sort.by(direction, sortBy)));
+
+        model.addAttribute("requests", pageRequests);
         model.addAttribute("requestDTO", new RequestDTO());
+        model.addAttribute("currentPage", pageRequests.getNumber());
+        model.addAttribute("totalPages", pageRequests.getTotalPages());
+        model.addAttribute("sort", sort);
         return "requests";
     }
+
+
+
 
 }
 

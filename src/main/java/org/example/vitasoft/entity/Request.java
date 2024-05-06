@@ -2,6 +2,7 @@ package org.example.vitasoft.entity;
 
 import lombok.Data;
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -20,5 +21,8 @@ public class Request {
 
     @Column(columnDefinition = "TEXT")
     private String text;
+
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }
 

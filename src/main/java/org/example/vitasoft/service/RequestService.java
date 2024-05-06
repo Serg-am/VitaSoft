@@ -5,8 +5,10 @@ import org.example.vitasoft.entity.RequestStatus;
 import org.example.vitasoft.entity.UserWebApp;
 import org.example.vitasoft.repository.RequestRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.List;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -19,11 +21,12 @@ public class RequestService {
     }
 
     public void createRequest(Request request) {
+        request.setCreatedAt(LocalDateTime.now());
         requestRepository.save(request);
     }
 
-    public List<Request> getUserRequests(UserWebApp user) {
-        return requestRepository.findByUser(user);
+    public Page<Request> getUserRequests(UserWebApp user, Pageable pageable) {
+        return requestRepository.findByUser(user, pageable);
     }
 
     public void editRequest(Long requestId, String newText) {
