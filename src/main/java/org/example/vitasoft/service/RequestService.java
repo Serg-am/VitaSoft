@@ -20,6 +20,10 @@ public class RequestService {
         this.requestRepository = requestRepository;
     }
 
+    public Page<Request> getAllRequests(Pageable pageable) {
+        return requestRepository.findAll(pageable);
+    }
+
     public void createRequest(Request request) {
         request.setCreatedAt(LocalDateTime.now());
         requestRepository.save(request);
@@ -27,6 +31,10 @@ public class RequestService {
 
     public Page<Request> getUserRequests(UserWebApp user, Pageable pageable) {
         return requestRepository.findByUser(user, pageable);
+    }
+
+    public Page<Request> getUserRequestsByName(String userName, Pageable pageable) {
+        return requestRepository.findByUserUsernameContainingIgnoreCase(userName, pageable);
     }
 
     public void editRequest(Long requestId, String newText) {

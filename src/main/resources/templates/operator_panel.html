@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>All Requests</title>
+</head>
+<body>
+
+<form th:action="@{/operator_panel}" method="get">
+    <label for="userName">Имя пользователя:</label>
+    <input type="text" id="userName" name="userName"/>
+    <button type="submit">Поиск</button>
+</form>
+
+<h2>All Requests</h2>
+<table>
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Status</th>
+        <th>Text</th>
+        <th>
+            <a th:href="@{/operator_panel(page=${currentPage}, sort=${sort == 'createdAt_desc' ? 'createdAt_asc' : 'createdAt_desc'})}">
+                Date
+            </a>
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="request : ${requests}">
+        <td th:text="${request.id}"></td>
+        <td th:text="${request.status}"></td>
+        <td th:text="${request.text}"></td>
+        <td th:text="${#temporals.format(request.createdAt, 'dd.MM.yyyy HH:mm:ss')}"></td>
+    </tr>
+    </tbody>
+</table>
+
+
+<div class="pagination" style="display: inline-block;">
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{/operator_panel(page=0, userName=${userName})}"><<</a>
+    </span>
+    <span th:if="${currentPage > 0}">
+        <a th:href="@{/operator_panel(page=__${currentPage - 1}__, userName=${userName})}"><</a>
+    </span>
+    <span th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}">
+        <span th:if="${pageNum == currentPage}">
+            <span th:text="${pageNum + 1}"></span>
+        </span>
+        <span th:unless="${pageNum == currentPage}">
+            <a th:href="@{/operator_panel(page=__${pageNum}__, userName=${userName})}" th:text="${pageNum + 1}"></a>
+        </span>
+    </span>
+    <span th:if="${currentPage < totalPages - 1}">
+        <a th:href="@{/operator_panel(page=__${currentPage + 1}__, userName=${userName})}">></a>
+    </span>
+    <span th:if="${currentPage < totalPages - 1}">
+        <a th:href="@{/operator_panel(page=__${totalPages - 1}__, userName=${userName})}">>></a>
+    </span>
+</div>
+
+
+
+</body>
+</html>

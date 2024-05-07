@@ -8,5 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RequestRepository extends JpaRepository<Request, Long> {
     Page<Request> findByUser(UserWebApp user, Pageable pageable);
+    Page<Request> findByUserUsernameContainingIgnoreCase(String userName, Pageable pageable);
 }
 
