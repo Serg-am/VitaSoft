@@ -3,7 +3,6 @@ package org.example.vitasoft.config;
 import org.example.vitasoft.service.UserWebAppDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -31,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/css/**", "/fonts/**", "/js/**").permitAll()
                 .antMatchers("/admin", "/admin_panel").hasRole("ADMIN")
                 .antMatchers("/user", "/requests").hasRole("USER")
-                .antMatchers("/operator", "operator_panel").hasRole("OPERATOR")
+                .antMatchers("/operator", "/operator_panel").hasRole("OPERATOR")
                 .anyRequest().authenticated()
                 .and()
                 .formLogin().loginPage("/auth/login")

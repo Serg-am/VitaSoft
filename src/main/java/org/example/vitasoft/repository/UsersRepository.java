@@ -7,5 +7,4 @@ import java.util.List;
 public interface UsersRepository extends JpaRepository<UserWebApp, Integer> {
     UserWebApp findByUsername(String username);
     List<UserWebApp> findByUsernameContainingIgnoreCase(String username);
-
 }

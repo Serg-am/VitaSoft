@@ -45,25 +45,42 @@ public class RequestService {
                 request.setText(newText);
                 requestRepository.save(request);
             } else {
-                // Handle error: Request is not in draft status
-                throw new IllegalStateException("Unable to edit request with ID " + requestId + " because it is not in draft status.");
+                throw new IllegalStateException("Невозможно редактировать заявку с ID: " + requestId + ", поскольку ее статус не является черновым.");
             }
         } else {
-            // Handle error: Request not found
             throw new IllegalArgumentException("Request with ID " + requestId + " not found.");
         }
     }
 
     public void submitRequest(Long requestId) {
+        updateRequestStatus(requestId, RequestStatus.SENT);
+    }
+
+    public void acceptRequest(Long requestId) {
+        updateRequestStatus(requestId, RequestStatus.ACCEPTED);
+    }
+
+    public void rejectRequest(Long requestId) {
+        updateRequestStatus(requestId, RequestStatus.REJECTED);
+    }
+
+    private void updateRequestStatus(Long requestId, RequestStatus status) {
         Optional<Request> optionalRequest = requestRepository.findById(requestId);
         if (optionalRequest.isPresent()) {
             Request request = optionalRequest.get();
-            request.setStatus(RequestStatus.SENT);
+            request.setStatus(status);
             requestRepository.save(request);
         } else {
-            // Handle error: Request not found
-            throw new IllegalArgumentException("Request with ID " + requestId + " not found.");
+            throw new IllegalArgumentException("Заявка с ID: " + requestId + " не найдена.");
         }
+    }
+
+    public Page<Request> getAllRequestsByStatusNot(RequestStatus status, Pageable pageable) {
+        return requestRepository.findByStatusNot(status, pageable);
+    }
+
+    public Page<Request> getUserRequestsByNameAndStatusNot(String userName, RequestStatus status, Pageable pageable) {
+        return requestRepository.findByUserUsernameContainingIgnoreCaseAndStatusNot(userName, status, pageable);
     }
 
 }

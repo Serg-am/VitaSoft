@@ -30,7 +30,7 @@
             </ul>
         </td>
         <td>
-            <form th:method="POST" th:action="@{/admin/users/assignOperatorRole}">
+            <form th:method="POST" th:action="@{/admin/users/assignOperatorRole}" th:unless="${user.roles.toString().contains('OPERATOR')}">
                 <input type="hidden" name="userId" th:value="${user.id}"/>
                 <button type="submit">Назначить роль оператора</button>
             </form>

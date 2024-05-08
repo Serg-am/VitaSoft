@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-
 @Service
 public class UserService implements UserDetailsService {
     @Autowired
@@ -22,7 +21,7 @@ public class UserService implements UserDetailsService {
         UserWebApp user = userRepo.findByUsername(username);
 
         if (user == null) {
-            throw new UsernameNotFoundException("User not found");
+            throw new UsernameNotFoundException("Пользователь не найден");
         }
 
         return user;

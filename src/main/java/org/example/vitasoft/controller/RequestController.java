@@ -70,7 +70,7 @@ public class RequestController {
         Sort.Direction direction = sort.endsWith("_desc") ? Sort.Direction.DESC : Sort.Direction.ASC;
         String sortBy = sort.split("_")[0];
 
-        // Получить список заявок пользователя с учетом пагинации и сортировки
+        // Получить список с учетом пагинации и сортировки
         Page<Request> pageRequests = requestService.getUserRequests(user,
                 PageRequest.of(page, 5, Sort.by(direction, sortBy)));
 

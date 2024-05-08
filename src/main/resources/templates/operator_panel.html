@@ -17,11 +17,12 @@
     <thead>
     <tr>
         <th>Id</th>
-        <th>Status</th>
-        <th>Text</th>
+        <th>Имя пользователя</th>
+        <th>Статус</th>
+        <th>Текст</th>
         <th>
             <a th:href="@{/operator_panel(page=${currentPage}, sort=${sort == 'createdAt_desc' ? 'createdAt_asc' : 'createdAt_desc'})}">
-                Date
+                Дата
             </a>
         </th>
     </tr>
@@ -29,9 +30,20 @@
     <tbody>
     <tr th:each="request : ${requests}">
         <td th:text="${request.id}"></td>
+        <td th:text="${request.user.username}"></td>
         <td th:text="${request.status}"></td>
         <td th:text="${request.text}"></td>
         <td th:text="${#temporals.format(request.createdAt, 'dd.MM.yyyy HH:mm:ss')}"></td>
+        <td>
+            <form th:action="@{/operator_panel/accept}" th:method="post" th:if="${request.status.toString() == 'SENT'}">
+                <input type="hidden" name="requestId" th:value="${request.id}" />
+                <button type="submit">Принять</button>
+            </form>
+            <form th:action="@{/operator_panel/reject}" th:method="post" th:if="${request.status.toString() == 'SENT'}">
+                <input type="hidden" name="requestId" th:value="${request.id}" />
+                <button type="submit">Отклонить</button>
+            </form>
+        </td>
     </tr>
     </tbody>
 </table>

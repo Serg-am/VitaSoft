@@ -23,9 +23,8 @@ public class UserWebAppDetailService extends UserWebApp implements UserDetailsSe
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<UserWebApp> userWebAppOptional = Optional.ofNullable(usersRepository.findByUsername(username));
 
-        //TODO Переделать костыль
         if(userWebAppOptional.isEmpty()){
-            throw new UsernameNotFoundException("User not found!");
+            throw new UsernameNotFoundException("Пользователь не найден");
         }
         return new UserWebAppDetails(userWebAppOptional.get());
     }
